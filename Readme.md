@@ -61,9 +61,9 @@ observer(document.getElementById('el'), {prop: 'dataset'}).on('change', function
 });
 ```
 
-### #start()
+### #start(interval)
 
-Starts observing. This is started by default, pass `autoStart: false` to `opts` object in constructor. Emits the 'start' event when started.
+Starts observing at a given optional interval. This is started by default, pass `autoStart: false` to `opts` object in constructor. Emits the 'start' event when started.
 
 ### #stop()
 

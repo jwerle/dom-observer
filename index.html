@@ -5,6 +5,7 @@
 		<script type="text/javascript" src="./build/build.js"></script>
 	</head>
 	<body>
+		<div id="el"></div>
 		<div id="one"></div>
 		<div id="two"></div>
 		<div id="three"></div>
@@ -15,8 +16,9 @@
 			,	$ = document.querySelectorAll.bind(document)
 
 		var ob1 = observer($('#one')[0], {prop: 'style'})
-			,	ob2 = observer($('#two')[0], {prop: 'hidden'})
-			,	ob3 = observer($('#three')[0], {prop: 'dataset'})
+			, ob2 = observer($('#two')[0], {prop: 'hidden'})
+			, ob3 = observer($('#three')[0], {prop: 'dataset'})
+			, ob4 = observer($('#el')[0], {prop: 'innerHTML'})
 
 		// we assert that there is no 'display'
 		// property on the element
@@ -82,7 +84,7 @@
 			assert('display' === diff[3][1][1]);
 			// assert that the `.display` property was set to 'block'
 			assert('block' === diff[3][2]);
-			
+
 		});
 
 		ob2.on('change', function (diff, prev) {

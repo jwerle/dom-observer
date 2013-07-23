@@ -45,9 +45,13 @@ function Observer (el, opts) {
 	this.observed = el[prop];
 	this.interval = opts.interval || 50;
 
-	this.start = function () {
+	this.start = function (interval) {
 		iv = setInterval(function () {
-			var diff, tmp = {}, tmp2 = {}
+			var diff
+			  , tmp = {}
+			  , tmp2 = {}
+			  , cloned = 'object' === typeof this.observed? clone(this.observed) : null
+			
 			if ('object' !== typeof current) {
 				if (self.el[prop] !== self.observed) {
 					tmp[prop] = self.el[prop];
@@ -56,11 +60,11 @@ function Observer (el, opts) {
 					self.observed = self.el[prop];
 				}
 			}
-			else if (diff = x.diff(current, clone(self.observed))) {
-				self.emit('change', diff, clone(self.observed));
-				current = clone(self.observed);
+			else if (cloned && (diff = x.diff(current, cloned))) {
+				self.emit('change', diff, cloned);
+				current = cloned;
 			}
-		}, self.interval);
+		}, interval || self.interval);
 
 		self.emit('start');
 		return this;
