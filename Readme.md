@@ -1,4 +1,3 @@
-
 # observer
 
 Observes a DOM Element property for changes with diff support. Uses [xdiff](https://github.com/dominictarr/xdiff) for diff output.
@@ -20,22 +19,22 @@ obj.on('change', function (diff, prev) {
 		[
 			[
 				"set", // action
-				["root", "0" ], // location, property
+				["root", "0" ], // property path .0
 				"display" // value
 			],
 			[
 				"set", // action
-				["root", "length"], // location, property
+				["root", "length"], // property path .length
 				1 // value
 			],
 			[
 				"set", // action
-				["root", "cssText"], // location, property
+				["root", "cssText"], // property path .cssTest
 				"display: block;" // value
 			],
 			[
 				"set", // action
-				["root", "display"], // location, property
+				["root", "display"], // property path .display
 				"block" // value
 			]
 		]
