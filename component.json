@@ -1,0 +1,17 @@
+{
+  "name": "dom-observer",
+  "repo": "jwerle/observer",
+  "description": "Observes a DOM Node every given ms",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+    "juliangruber/events": "*",
+    "jwerle/xdiff": "*",
+    "component/clone": "*"
+  },
+  "development": {},
+  "license": "MIT",
+  "scripts": [
+    "index.js"
+  ]
+}

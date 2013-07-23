@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+	<head>
+		<title>DOM Observer test</title>
+		<script type="text/javascript" src="./build/build.js"></script>
+	</head>
+	<body>
+		<div id="one"></div>
+		<div id="two"></div>
+		<div id="three"></div>
+	</body>
+	<script type="text/javascript">
+		var observer = require('dom-observer')
+			,	assert = require('component-assert')
+			,	$ = document.querySelectorAll.bind(document)
+
+		var ob1 = observer($('#one')[0], {prop: 'style'})
+			,	ob2 = observer($('#two')[0], {prop: 'hidden'})
+			,	ob3 = observer($('#three')[0], {prop: 'dataset'})
+
+		// we assert that there is no 'display'
+		// property on the element
+		
+		assert('' === ob1.el.style.display);
+		ob1.on('change', function (diff, prev) {
+
+			/**
+			 * The first diff we test that we set the
+			 * 'display' property on the `.style` object
+			 * which should also add an index to the object
+			 */
+
+			// assert we set a property on the `.style` object
+			assert('set' === diff[0][0]);
+			// assert we set a property on the root of the object
+			assert('root' === diff[0][1][0]);
+			// assert that we added an index to the `.style` object
+			assert(0 === Number(diff[0][1][1]));
+			// assert we set the 'display' property on the `.style` object
+			assert('display' === diff[0][2]);
+
+
+			/**
+			 * The second diff we test that the `.length` property
+			 * was updated since an index was added
+			 */
+
+			// assert we set a property on the `.style` object
+			assert('set' === diff[1][0]);
+			// assert we set a property on the root of the object
+			assert('root' === diff[1][1][0]);
+			// assert that we set the `.length` property
+			assert('length' === diff[1][1][1]);
+			// assert that the `.length. property is a number
+			assert('number' === typeof diff[1][2]);
+
+
+			/**
+			 * The third diff we test that the 'cssText' property
+			 * was updated/set on the `.style` object
+			 */
+
+			// assert we set a property on the `.style` object
+			assert('set' === diff[2][0]);
+			// assert we set a property on the root of the object
+			assert('root' === diff[2][1][0]);
+			// assert that we set the `.cssText` property
+			assert('cssText' === diff[2][1][1]);
+			// assert that the `.cssText` property was set to 'display: block;'
+			assert('display: block;' === diff[2][2]);
+
+			/**
+			 * The fourth diff we test that the 'display' property
+			 * was set to 'block' on the `.style` object
+			 */
+
+			// assert we set a property on the `.style` object
+			assert('set' === diff[3][0]);
+			// assert we set a property on the root of the object
+			assert('root' === diff[3][1][0]);
+			// assert that we set the `.display` property
+			assert('display' === diff[3][1][1]);
+			// assert that the `.display` property was set to 'block'
+			assert('block' === diff[3][2]);
+			
+		});
+
+		ob2.on('change', function (diff, prev) {
+
+			assert('set' === diff[0][0]);
+			assert('root' === diff[0][1][0]);
+			assert('hidden' === diff[0][1][1]);
+			assert(false === diff[0][2]);
+		});
+
+		ob3.on('change', function (diff, prev) {
+
+			assert('set' === diff[0][0]);
+			assert('root' === diff[0][1][0]);
+			assert('test' === diff[0][1][1]);
+			assert('foo biz bar' === diff[0][2]);
+
+		});
+
+
+		setTimeout(function () {
+			$('#one')[0].style.display = 'block';
+			$('#two')[0].hidden = true;
+			$('#three')[0].setAttribute('data-test', 'foo biz bar');
+		}, 0);
+
+	</script>
+</html>
